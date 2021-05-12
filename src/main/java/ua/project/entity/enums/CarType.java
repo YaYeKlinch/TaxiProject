@@ -1,5 +1,5 @@
 package ua.project.entity.enums;
 
 public enum CarType {
-    CABRIOLET
+    CABRIOLET, TRUCK, BUS
 }

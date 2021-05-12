@@ -1,5 +1,6 @@
 package ua.project.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ua.project.entity.enums.CarStatus;
@@ -18,6 +19,8 @@ public class Car {
 
     private int capacity;
 
+    private String name;
+
     private String photo;
 
     @Enumerated(EnumType.STRING)
@@ -26,6 +29,14 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarType carType;
 
+    @Builder
+    Car(int capacity , String name, String photo, CarStatus carStatus, CarType carType){
+        this.capacity = capacity;
+        this.name=name;
+        this.carStatus = carStatus;
+        this.carType = carType;
+        this.photo = photo;
+    }
 
 
 }
