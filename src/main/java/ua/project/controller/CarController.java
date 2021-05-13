@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
@@ -42,6 +43,11 @@ public class CarController {
           return "car/addCar";
         }
         carService.createCar(carDto);
+        return "redirect:/car";
+    }
+    @GetMapping("/car/{car}")
+    public String changeActivity(@PathVariable("car") Car car){
+        carService.changeCarActivity(car);
         return "redirect:/car";
     }
 }

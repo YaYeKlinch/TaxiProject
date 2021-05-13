@@ -31,4 +31,10 @@ public class CarServiceImpl implements CarService {
                 .build();
         carRepository.save(car);
     }
+
+    @Override
+    public void changeCarActivity(Car car) {
+        car.setActive(!car.isActive());
+        carRepository.save(car);
+    }
 }

@@ -9,4 +9,5 @@ public interface CarService {
 
     List<Car> findAll();
     void createCar(CarDto carDto );
+    void changeCarActivity(Car car);
 }
