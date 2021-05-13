@@ -23,19 +23,23 @@ public class Car {
 
     private String photo;
 
+    private boolean active;
+
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus;
 
     @Enumerated(EnumType.STRING)
     private CarType carType;
 
+    Car() { }
     @Builder
-    Car(int capacity , String name, String photo, CarStatus carStatus, CarType carType){
+    Car(int capacity , String name, String photo, CarStatus carStatus, CarType carType, boolean active){
         this.capacity = capacity;
         this.name=name;
         this.carStatus = carStatus;
         this.carType = carType;
         this.photo = photo;
+        this.active= active;
     }
 
 

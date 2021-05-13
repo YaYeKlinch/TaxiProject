@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
+import ua.project.entity.enums.CarStatus;
 import ua.project.repos.CarRepository;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class CarServiceImpl implements CarService {
                 .name(carDto.getName())
                 .photo(carDto.getPhoto())
                 .capacity(carDto.getCapacity())
-                .carStatus(carDto.getCarStatus())
+                .carStatus(CarStatus.INACTIVE)
                 .carType(carDto.getCarType())
+                .active(true)
                 .build();
         carRepository.save(car);
     }
