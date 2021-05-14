@@ -2,6 +2,8 @@
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="/fragments/head :: head"></head>
 <body>
+<div class="container">
+    <header th:replace="/fragments/navbar :: navbar"></header>
 <a class="btn btn-outline-primary"  href="/add-car">Add car</a>
 <h1>Choose your car</h1>
 <table class="table">
@@ -22,6 +24,7 @@
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 
 </html>
