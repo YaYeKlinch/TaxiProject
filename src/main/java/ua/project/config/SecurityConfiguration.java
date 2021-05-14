@@ -1,5 +1,6 @@
 package ua.project.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,11 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import ua.project.services.user.UserServiceImpl;
 
+@AllArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
-    @Autowired
+
     private UserServiceImpl userService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {

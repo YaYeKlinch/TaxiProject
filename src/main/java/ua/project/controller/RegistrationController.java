@@ -1,6 +1,7 @@
 package ua.project.controller;
 
 
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,11 +20,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.validation.Valid;
 
+@AllArgsConstructor
 @Controller
 public class RegistrationController {
     private static final Logger logger = (Logger) LogManager.getLogger(RegistrationController.class);
     @Qualifier("userServiceImpl")
-    @Autowired
     UserService userService;
 
     @GetMapping("/registration")

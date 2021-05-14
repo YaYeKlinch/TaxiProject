@@ -1,6 +1,7 @@
 package ua.project.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +18,13 @@ import ua.project.services.mapper.impl.CarMapperImpl;
 import javax.validation.Valid;
 import java.util.List;
 
+@AllArgsConstructor
 @Controller
 public class CarController {
 
-    @Autowired
+
     CarService carService;
-    @Autowired
+
     CarMapper carMapper;
 
 

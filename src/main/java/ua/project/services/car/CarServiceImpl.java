@@ -1,5 +1,6 @@
 package ua.project.services.car;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.project.controller.dto.CarDto;
@@ -11,10 +12,11 @@ import ua.project.services.mapper.CarMapper;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CarServiceImpl implements CarService {
-    @Autowired
+    
     CarRepository carRepository;
-    @Autowired
+    
     CarMapper carMapper;
 
     @Override

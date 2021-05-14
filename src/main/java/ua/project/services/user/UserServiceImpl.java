@@ -1,5 +1,6 @@
 package ua.project.services.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,10 +15,10 @@ import ua.project.repos.UserRepository;
 import java.util.Collections;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService{
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);

@@ -7,10 +7,12 @@ import ua.project.entity.enums.CarStatus;
 import ua.project.entity.enums.CarType;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "car")
 public class Car {
 
     @Id
@@ -30,6 +32,9 @@ public class Car {
 
     @Enumerated(EnumType.STRING)
     private CarType carType;
+
+    @OneToMany(mappedBy = "car" , fetch = FetchType.EAGER)
+    private Set<Order> orders;
 
     public Car() {
     }
