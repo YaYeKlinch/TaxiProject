@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="/fragments/head :: head"></head>
+<body>
+<div class="container">
+    <form th:action="@{|/car/update-car/${carId}|}"  method="post" th:object="${carDto}">
+        <div class="form-group blu-margin">
+            <select class="form-control"  th:name="carType" id="dropOperator">
+                <option th:each="type : ${carType}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+        <input type="number" th:field = "*{capacity}" th:value="${carDto.getCapacity()}"/>
+        <input type="text" th:field = "*{name}" th:value="${carDto.getName()}"/>
+        <input type="text" th:field = "*{photo}" th:value="${carDto.getPhoto()}"/>
+        <div><button class="btn" type="submit"  th:text="#{submit.button}"></button></div>
+    </form>
+
+</div>
+</body>
+</html>

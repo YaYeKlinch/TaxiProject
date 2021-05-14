@@ -5,4 +5,5 @@ import ua.project.entity.Car;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
 
+
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
 import ua.project.services.car.CarService;
+import ua.project.services.mapper.CarMapper;
+import ua.project.services.mapper.impl.CarMapperImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,6 +22,9 @@ public class CarController {
 
     @Autowired
     CarService carService;
+    @Autowired
+    CarMapper carMapper;
+
 
     @GetMapping("/car")
     public String getCarList(Model model){
@@ -49,5 +54,22 @@ public class CarController {
     public String changeActivity(@PathVariable("car") Car car){
         carService.changeCarActivity(car);
         return "redirect:/car";
+    }
+
+    @GetMapping("/car/update-car/{car}")
+    public String getUpdateCarPage(Model model,
+                                   @PathVariable("car") Car car){
+        CarDto carDto = carMapper.mapToDto(car);
+        model.addAttribute("carDto" , carDto);
+        model.addAttribute("carType", ControllerUtils.getCarTypes());
+        model.addAttribute("carId", car.getId());
+        return "car/updateCar";
+    }
+    @PostMapping("car/update-car/{car}")
+    public String updateCar(@PathVariable("car") Car car,
+                            CarDto carDto){
+        carService.updateCar(carDto,car);
+        return "redirect:/car";
+
     }
 }

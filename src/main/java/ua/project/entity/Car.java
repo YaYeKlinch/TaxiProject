@@ -31,7 +31,8 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarType carType;
 
-    Car() { }
+    public Car() {
+    }
     @Builder
     Car(int capacity , String name, String photo, CarStatus carStatus, CarType carType, boolean active){
         this.capacity = capacity;
@@ -41,6 +42,7 @@ public class Car {
         this.photo = photo;
         this.active= active;
     }
+
 
 
 }
