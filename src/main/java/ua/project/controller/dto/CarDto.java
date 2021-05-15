@@ -3,7 +3,6 @@ package ua.project.controller.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import ua.project.entity.enums.CarStatus;
 import ua.project.entity.enums.CarType;
 
 import javax.validation.constraints.NotBlank;

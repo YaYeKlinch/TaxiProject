@@ -1,8 +1,6 @@
 package ua.project.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +11,6 @@ import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
 import ua.project.services.car.CarService;
 import ua.project.services.mapper.CarMapper;
-import ua.project.services.mapper.impl.CarMapperImpl;
 
 import javax.validation.Valid;
 import java.util.List;

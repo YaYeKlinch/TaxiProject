@@ -1,6 +1,8 @@
 package ua.project.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "taxi_order")
+@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +21,7 @@ public class Order {
     private String departure;
     private String arrival;
     private int costs;
-    private int distance;
+    private double distance;
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,4 +32,11 @@ public class Order {
     @JoinColumn(name="car_id", nullable=false)
     private Car car;
 
+    @Builder
+    public Order(String departure , String arrival, int costs , double distance){
+        this.arrival = arrival;
+        this.departure = departure;
+        this.costs = costs;
+        this.distance = distance;
+    }
 }
