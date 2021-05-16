@@ -1,9 +1,11 @@
 package ua.project.services.mapper.impl;
 
+import org.springframework.stereotype.Component;
 import ua.project.controller.dto.OrderDto;
 import ua.project.entity.Order;
 import ua.project.services.mapper.OrderMapper;
 
+@Component
 public class OrderMapperImpl implements OrderMapper {
     @Override
     public Order mapToEntity(OrderDto dto) {

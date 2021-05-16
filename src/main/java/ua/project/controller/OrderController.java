@@ -20,7 +20,7 @@ import javax.validation.Valid;
 public class OrderController {
     OrderService orderService;
 
-    @GetMapping("/car/{car}/make-order")
+    @GetMapping("/car/make-order/{car}")
     public String getOrderPage(Model model,
                                @PathVariable Car car){
         OrderDto orderDto = new OrderDto();
@@ -28,7 +28,7 @@ public class OrderController {
         model.addAttribute("carId", car.getId());
         return "order/addOrder";
     }
-    @PostMapping("/car/{car}/make-order")
+    @PostMapping("/car/make-order/{car}")
     public String makeOrder(@PathVariable("car") Car car,
                             @AuthenticationPrincipal User user,
                             @Valid OrderDto orderDto,

@@ -21,6 +21,7 @@
         <td th:text="${car.carType}">> </td>
         <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" >Change activity</a></td>
         <td><a class="btn btn-outline-primary" th:href="@{/car/update-car/{id}(id =${car.id})}" >Update</a></td>
+        <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" >Make order</a></td>
     </tr>
     </tbody>
 </table>
