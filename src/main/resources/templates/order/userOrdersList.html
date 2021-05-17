@@ -5,15 +5,15 @@
 <body>
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar"></header>
+    <div th:unless="${#lists.isEmpty(orders)}">
     <table class="table">
         <thead>
         <tr>
-            <th scope="col" >Departure</th>
-            <th scope="col" >Arrival</th>
-            <th scope="col" >Time</th>
-            <th scope="col" >Costs</th>
-            <th scope="col" >User</th>
-            <th scope="col" >Taxi</th>
+            <th scope="col" th:text="#{departure.order}">Departure</th>
+            <th scope="col" th:text="#{arrival.order}"></th>
+            <th scope="col" th:text="#{time.order}"></th>
+            <th scope="col" th:text="#{order.costs}"></th>
+            <th scope="col" th:text="#{order.car}">Taxi</th>
         </tr>
         </thead>
         <tbody>
@@ -22,11 +22,11 @@
             <td th:text="${order.arrival}"> </td>
             <td th:text="${order.dateTime}"> </td>
             <td th:text="${order.costs}"> </td>
-            <td th:text="${order.user.username}"> </td>
             <td th:text="${order.car.name}"> </td>
         </tr>
         </tbody>
     </table>
+    </div>
     <ul th:if="${orders.totalPages > 0}" class="nav nav-tabs justify-content-center">
         <li class="nav-item"  th:each="pageNumber : ${pageNumbers}">
             <a th:href="@{/orders(size=${orders.size}, page=${pageNumber} , sort=${sort}, nameBy=${nameBy})}"
@@ -34,6 +34,9 @@
                th:class="${pageNumber==orders.number + 1} ? active"></a>
         </li>
     </ul>
+    <div th:if="${#lists.isEmpty(orders)}">
+        <h2 th:text="#{orders.empty}"></h2>
+    </div>
 </div>
 </body>
 </html>

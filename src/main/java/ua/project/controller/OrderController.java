@@ -43,7 +43,7 @@ public class OrderController {
             return "order/addOrder";
         }
         orderService.createOrder(orderDto, user, car);
-        return "redirect:/car";
+        return "redirect:/cars";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/orders")

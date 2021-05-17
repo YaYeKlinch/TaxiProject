@@ -6,8 +6,8 @@
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar"></header>
     <form th:action="@{|/car/make-order/${carId}|}"  method="post">
-        <input type="text" th:name="departure"/>
-        <input type="text" th:name="arrival"/>
+      <div> <a th:text="#{departure.order}"></a><input type="text" th:name="departure"/></div>
+        <div> <a  th:text="#{arrival.order}"></a> <input type="text" th:name="arrival"/></div>
         <div><button class="btn" type="submit"  th:text="#{submit.button}"></button></div>
     </form>
 </div>

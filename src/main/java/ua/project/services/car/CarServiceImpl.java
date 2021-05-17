@@ -2,6 +2,9 @@ package ua.project.services.car;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
@@ -10,6 +13,7 @@ import ua.project.repos.CarRepository;
 import ua.project.services.mapper.CarMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +24,12 @@ public class CarServiceImpl implements CarService {
     CarMapper carMapper;
 
     @Override
-    public List<Car> findAll() {
-        return carRepository.findAll();
+    public Page<Car> findAll(Optional<Integer> page, Optional<Integer> size) {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
+        return carRepository.findAll(pageRequest);
     }
 
     @Override
@@ -40,6 +48,17 @@ public class CarServiceImpl implements CarService {
     public void updateCar(CarDto carDto, Car car) {
         carMapper.updateCar(car , carDto);
             carRepository.save(car);
+    }
+
+    @Override
+    public Page<Car> findAllActiveCars(Optional<Integer> page, Optional<Integer> size)
+    {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
+
+        return carRepository.findCarsByActive(pageRequest, true);
     }
 
 }

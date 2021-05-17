@@ -1,9 +1,12 @@
 package ua.project.repos;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import ua.project.entity.Car;
 
-public interface CarRepository extends JpaRepository<Car, Long> {
+public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
 
-
+    Page<Car> findAll(Pageable pageable);
+    Page<Car> findCarsByActive(Pageable pageable, boolean active);
 }

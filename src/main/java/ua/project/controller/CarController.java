@@ -1,6 +1,7 @@
 package ua.project.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
 import ua.project.services.car.CarService;
@@ -15,6 +17,7 @@ import ua.project.services.mapper.CarMapper;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
@@ -25,11 +28,25 @@ public class CarController {
 
     CarMapper carMapper;
 
+    @GetMapping("/cars")
+    public String getActiveCarsList(@RequestParam("page") Optional<Integer> page,
+                                    @RequestParam("size") Optional<Integer> size, Model model){
+        Page<Car> cars = carService.findAllActiveCars(page, size);
+        model.addAttribute("cars", cars);
+        int totalPages = cars.getTotalPages();
+        ControllerUtils.pageNumberCounts(totalPages , model);
+        return "car/activeCarList";
+    }
 
-    @GetMapping("/car")
-    public String getCarList(Model model){
-        List<Car> carList = carService.findAll();
-        model.addAttribute("carList", carList);
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/all-cars")
+    public String getAllCarsList(@RequestParam("page") Optional<Integer> page,
+                                 @RequestParam("size") Optional<Integer> size, Model model){
+        Page<Car> cars = carService.findAll(page, size);
+        model.addAttribute("carList", cars);
+        int totalPages = cars.getTotalPages();
+        ControllerUtils.pageNumberCounts(totalPages , model);
         return "car/carList";
     }
 
@@ -56,7 +73,7 @@ public class CarController {
     @GetMapping("/car/{car}")
     public String changeActivity(@PathVariable("car") Car car){
         carService.changeCarActivity(car);
-        return "redirect:/car";
+        return "redirect:/all-cars";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -74,7 +91,7 @@ public class CarController {
     public String updateCar(@PathVariable("car") Car car,
                             CarDto carDto){
         carService.updateCar(carDto,car);
-        return "redirect:/car";
+        return "redirect:/all-cars";
 
     }
 }

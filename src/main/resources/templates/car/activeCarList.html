@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="/fragments/head :: head"></head>
+<body>
+<div class="container">
+    <header th:replace="/fragments/navbar :: navbar"></header>
+    <h1 th:text="#{chooseCar.text}"></h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{car.name}"></th>
+            <th scope="col" th:text="#{car.capacity}"></th>
+            <th scope="col" th:text="#{car.carType}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row" th:each="car : ${cars.content}">
+            <td th:text="${car.name}"> </td>
+            <td th:text="${car.capacity}"> </td>
+            <td th:text="${car.carType}">> </td>
+            <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" th:text="#{makeOrder.button}">яя</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <ul th:if="${cars.totalPages > 0}" class="nav nav-tabs justify-content-center">
+        <li class="nav-item"  th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/cars(size=${cars.size}, page=${pageNumber})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==cars.number + 1} ? active"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -8,20 +8,28 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col" >Departure</th>
-            <th scope="col" >Arrival</th>
-            <th scope="col" >Time</th>
-            <th scope="col" >Costs</th>
-            <th scope="col" >User</th>
-            <th scope="col" >Taxi</th>
+            <th scope="col" th:text="#{departure.order}"></th>
+            <th scope="col" th:text="#{arrival.order}"></th>
+            <th scope="col" th:text="#{time.order}"></th>
+            <th scope="col" th:text="#{order.costs}"></th>
+            <th scope="col" th:text="#{order.username}">]</th>
+            <th scope="col" th:text="#{order.car}"></th>
         </tr>
         </thead>
         <tbody>
+        <td>
+            <a class="btn btn-outline-primary" th:href="@{/orders(sort='DESC', nameBy='dateTime')}"  th:text="#{sort.desc}"></a>
+            <a class="btn btn-outline-primary" th:href="@{/orders(sort='ASC', nameBy='dateTime')}"  th:text="#{sort.asc}"></a>
+        </td>
+        <td>
+            <a class="btn btn-outline-primary" th:href="@{/orders(sort='DESC', nameBy='costs')}"  th:text="#{sort.desc}"></a>
+            <a class="btn btn-outline-primary" th:href="@{/orders(sort='ASC', nameBy='costs')}"  th:text="#{sort.asc}"></a>
+        </td>
         <tr scope="row" th:each="order : ${orders.content}">
-            <td th:text="${order.departure}"> </td>
-            <td th:text="${order.arrival}"> </td>
             <td th:text="${order.dateTime}"> </td>
             <td th:text="${order.costs}"> </td>
+            <td th:text="${order.departure}"> </td>
+            <td th:text="${order.arrival}"> </td>
             <td th:text="${order.user.username}"> </td>
             <td th:text="${order.car.name}"> </td>
         </tr>

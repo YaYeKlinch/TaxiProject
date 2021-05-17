@@ -7,16 +7,18 @@
     <header th:replace="/fragments/navbar :: navbar"></header>
     <form th:action="@{/add-car}"  method="post">
         <div class="form-group blu-margin">
+            <div>
+                <a th:text="#{car.carType}"></a>
             <select class="form-control"  th:name="carType" id="dropOperator">
                 <option th:each="type : ${carType}" th:value="${type}" th:text="${type}"></option>
             </select>
+            </div>
         </div>
-            <input type="number" th:name="capacity"/>
-            <input type="text" th:name="name"/>
-            <input type="text" th:name="photo"/>
+           <div ><a th:text="#{car.capacity}"></a> <input type="number" th:name="capacity"/></div>
+        <div > <a th:text="#{car.name}"></a> <input type="text" th:name="name"/></div>
+        <div > <a th:text="#{car.photo}"></a> <input type="text" th:name="photo"/> </div>
         <div><button class="btn" type="submit"  th:text="#{submit.button}"></button></div>
     </form>
-
 </div>
 </body>
 </html>

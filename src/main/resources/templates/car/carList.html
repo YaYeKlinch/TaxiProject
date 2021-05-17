@@ -6,31 +6,41 @@
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar"></header>
     <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
-<a class="btn btn-outline-primary"  href="/add-car">Add car</a>
+<a class="btn btn-outline-primary"  href="/add-car" th:text="#{addCar.button}"></a>
     </div>
-<h1>Choose your car</h1>
+<h1 th:text="#{allCars.text}"></h1>
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Capacity</th>
-        <th scope="col" >Category</th>
+        <th scope="col" th:text="#{car.name}"></th>
+        <th scope="col" th:text="#{car.capacity}"></th>
+        <th scope="col" th:text="#{car.carType}"></th>
     </tr>
     </thead>
     <tbody>
-    <tr scope="row" th:each="car : ${carList}">
+    <tr scope="row" th:each="car : ${carList.content}">
         <td th:text="${car.name}"> </td>
         <td th:text="${car.capacity}"> </td>
         <td th:text="${car.carType}">> </td>
         <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
-        <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" >Change activity</a></td>
-        <td><a class="btn btn-outline-primary" th:href="@{/car/update-car/{id}(id =${car.id})}" >Update</a></td>
+            <div th:if="${car.active}">
+        <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" th:text="#{deleteCar.button}"></a></td>
+            </div>
+            <div th:unless="${car.active}">
+                <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" th:text="#{returnCar.button}"></a></td>
+            </div>
+        <td><a class="btn btn-outline-primary" th:href="@{/car/update-car/{id}(id =${car.id})}" th:text="#{update.button}"></a></td>
         </div>
-        <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" >Make order</a></td>
     </tr>
     </tbody>
 </table>
+    <ul th:if="${carList.totalPages > 0}" class="nav nav-tabs justify-content-center">
+        <li class="nav-item"  th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/all-cars(size=${carList.size}, page=${pageNumber})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==carList.number + 1} ? active"></a>
+        </li>
+    </ul>
 </div>
 </body>
-
 </html>
