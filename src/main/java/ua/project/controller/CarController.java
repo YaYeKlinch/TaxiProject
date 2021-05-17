@@ -1,6 +1,7 @@
 package ua.project.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class CarController {
         return "car/carList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add-car")
     public String getAddCarPage(Model model){
         CarDto carDto = new CarDto();
@@ -40,6 +42,7 @@ public class CarController {
         model.addAttribute("car" , carDto);
         return "car/addCar";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-car")
     public String addCar(@Valid CarDto carDto,
                          BindingResult bindingResult){
@@ -49,12 +52,14 @@ public class CarController {
         carService.createCar(carDto);
         return "redirect:/car";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/car/{car}")
     public String changeActivity(@PathVariable("car") Car car){
         carService.changeCarActivity(car);
         return "redirect:/car";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/car/update-car/{car}")
     public String getUpdateCarPage(Model model,
                                    @PathVariable("car") Car car){
@@ -64,6 +69,7 @@ public class CarController {
         model.addAttribute("carId", car.getId());
         return "car/updateCar";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("car/update-car/{car}")
     public String updateCar(@PathVariable("car") Car car,
                             CarDto carDto){

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="/fragments/head :: head"></head>
 <body>
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar"></header>
+    <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
 <a class="btn btn-outline-primary"  href="/add-car">Add car</a>
+    </div>
 <h1>Choose your car</h1>
 <table class="table">
     <thead>
@@ -19,8 +22,10 @@
         <td th:text="${car.name}"> </td>
         <td th:text="${car.capacity}"> </td>
         <td th:text="${car.carType}">> </td>
+        <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
         <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" >Change activity</a></td>
         <td><a class="btn btn-outline-primary" th:href="@{/car/update-car/{id}(id =${car.id})}" >Update</a></td>
+        </div>
         <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" >Make order</a></td>
     </tr>
     </tbody>
