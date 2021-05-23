@@ -23,7 +23,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/" ,"/registration").permitAll()
+                .antMatchers("/static/**", "/" ,"/registration","/styles/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -39,4 +39,9 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**");
+    }
+
 }

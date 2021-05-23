@@ -57,4 +57,18 @@ public class OrderServiceImpl implements OrderService{
         }
         return orderRepository.findOrdersByUser_id(pageRequest , user.getId());
     }
+
+    @Override
+    public Page<Order> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort, String username) {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        if(sort==null){
+            pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
+        }
+        else {
+            pageRequest = PageRequest.of(currentPage - 1 , sizeOfPage , sort);
+        }
+        return orderRepository.findOrdersByUserUsernameContaining(pageRequest, username);
+    }
 }

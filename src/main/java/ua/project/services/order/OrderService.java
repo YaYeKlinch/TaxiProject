@@ -13,4 +13,5 @@ public interface OrderService {
     void createOrder(OrderDto orderDto , User user , Car car);
     Page<Order> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort);
     Page<Order> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort , User user);
+    Page<Order> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort , String username);
 }

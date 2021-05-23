@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="/fragments/head :: head">
+    <title></title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/fragments/navbar :: navbar">
+    </header>
+    <form>
+        <div>
+            <a th:text="#{car.carType}"></a>
+            <select class="form-control" th:name="carType" id="dropOperator">
+                <option th:each="type : ${carType}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+<input th:type="number" id="capacity"/>
+        <button id="find-car-btn" class="btn" type="button"  th:text="#{submit.button}"></button>
+</form>
+
+    <div class="grid-container" id="grid-car">
+        <div class="grid-item car-item" >
+            <img th:src="${car.photo}" class="car-image" />
+            <div><label th:text="#{car.name}"></label></div>
+            <div><label th:text="#{car.capacity}"></label></div>
+            <div><label th:text="#{car.carType}"></label></div>
+                <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" th:text="#{makeOrder.button}"></a></td>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+</body>
+</html>
+
+<script>
+    $(document).ready(function (){
+        $("#find-car-btn").click(()=>{
+            let carValues={};
+            carValues.capacity= $("#capacity").val()
+            carValues.carType= $("#dropOperator").val()
+            $.ajax({
+                type: 'GET',
+                url: "/find-car-filter",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: carValues,
+                success: function (data) {
+                    console.log(data)
+
+                },
+                error: function (data) {
+                    console.log("error")
+                    console.log(data);
+                    //    todo: implement
+                }
+            });
+        })
+    });
+</script>

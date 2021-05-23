@@ -1,20 +1,23 @@
 package ua.project.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
+import ua.project.entity.enums.CarType;
 import ua.project.services.car.CarService;
 import ua.project.services.mapper.CarMapper;
 
+import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -93,5 +96,22 @@ public class CarController {
         carService.updateCar(carDto,car);
         return "redirect:/all-cars";
 
+    }
+    @GetMapping("/find-car")
+    public String getFindCarPage(Model model){
+        model.addAttribute("carType", ControllerUtils.getCarTypes());
+        return "car/findCar";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/find-car-filter",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Page<Car>> findCars(@RequestParam("page") Optional<Integer> page,
+                                             @RequestParam("size") Optional<Integer> size,
+                                             @RequestParam("capacity")int capacity,
+                                             @RequestParam("carType")CarType carType
+                                    ){
+
+        Page<Car> cars = carService.findCarsByTypeAndCapacity(page ,size , carType,capacity);
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 }

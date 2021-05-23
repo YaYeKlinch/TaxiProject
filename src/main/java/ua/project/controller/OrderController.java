@@ -51,9 +51,15 @@ public class OrderController {
                                 @RequestParam("size") Optional<Integer> size,
                                 @RequestParam(value = "sort", required = false) String sortBy,
                                 @RequestParam(value = "nameBy", required = false) String nameBy,
+                                @RequestParam(value = "username", required = false) String username,
                                 Model model){
         Sort sort = ControllerUtils.getSort(sortBy , nameBy , model);
-        Page<Order> orders = orderService.findAll(page , size , sort);
+        if (username==null){
+            username = "";
+        }
+        model.addAttribute("username", username);
+      //  String searchField = ControllerUtils.getSearchField(username, model);
+        Page<Order> orders = orderService.findAllByUsersUsername(page , size , sort,username);
         int totalPages = orders.getTotalPages();
         ControllerUtils.pageNumberCounts(totalPages , model);
         model.addAttribute("orders", orders);

@@ -1,0 +1,18 @@
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.car-item {
+    width: auto;
+}
+
+.car-image {
+    min-width: 200px;
+    width: 100%;
+    height: 300px;
+}

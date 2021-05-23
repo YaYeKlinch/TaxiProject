@@ -10,4 +10,5 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Long>
 
     Page<Order> findAll(Pageable pageable);
     Page<Order> findOrdersByUser_id(Pageable pageable, @Param("user_id") Long id);
+    Page<Order> findOrdersByUserUsernameContaining(Pageable pageable, String username);
 }

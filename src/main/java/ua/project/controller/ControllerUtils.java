@@ -30,6 +30,14 @@ public class ControllerUtils {
         }
         return sort;
     }
+    public static String getSearchField(String username, Model model){
+        String searchField = "";
+        if(username!=null && !username.isEmpty()){
+            searchField = username;
+            model.addAttribute("username" , username);
+        }
+        return  username;
+    }
     public static Sort.Direction getSortType(String type){
         return type == null || type.isEmpty() ? Sort.DEFAULT_DIRECTION : Sort.Direction.valueOf(type);
     }

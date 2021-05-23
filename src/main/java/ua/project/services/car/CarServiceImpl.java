@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
 import ua.project.entity.enums.CarStatus;
+import ua.project.entity.enums.CarType;
 import ua.project.repos.CarRepository;
 import ua.project.services.mapper.CarMapper;
 
@@ -59,6 +60,16 @@ public class CarServiceImpl implements CarService {
         pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
 
         return carRepository.findCarsByActive(pageRequest, true);
+    }
+
+    @Override
+    public Page<Car> findCarsByTypeAndCapacity(Optional<Integer> page, Optional<Integer> size, CarType carType, int capacity) {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
+
+        return carRepository.findCarsByCapacityAndCarTypeAAndActive(pageRequest, capacity, carType,true);
     }
 
 }
