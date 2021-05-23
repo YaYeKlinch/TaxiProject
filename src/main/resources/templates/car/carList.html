@@ -2,14 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="/fragments/head :: head">
-
-
     <title></title>
 </head>
 <body>
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar">
-
     </header>
     <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
 <a class="btn btn-outline-primary"  href="/add-car" th:text="#{addCar.button}"></a>
@@ -28,7 +25,9 @@
                 <div th:unless="${car.active}">
                     <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" th:text="#{returnCar.button}"></a></td>
                 </div>
+                <div>
                 <td><a class="btn btn-outline-primary" th:href="@{/car/update-car/{id}(id =${car.id})}" th:text="#{update.button}"></a></td>
+                </div>
             </div>
         </div>
     </div>

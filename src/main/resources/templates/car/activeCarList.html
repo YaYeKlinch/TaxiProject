@@ -1,29 +1,34 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="/fragments/head :: head"></head>
+<head th:replace="/fragments/head :: head">
+    <title></title>
+</head>
 <body>
 <div class="container">
     <header th:replace="/fragments/navbar :: navbar"></header>
-    <h1 th:text="#{chooseCar.text}"></h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col" th:text="#{car.name}"></th>
-            <th scope="col" th:text="#{car.capacity}"></th>
-            <th scope="col" th:text="#{car.carType}"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr scope="row" th:each="car : ${cars.content}">
-            <td th:text="${car.name}"> </td>
-            <td th:text="${car.capacity}"> </td>
-            <td th:text="${car.carType}">> </td>
+    <div class="grid-container">
+        <div class="grid-item car-item"  th:each="car : ${cars.content}">
+            <img th:src="${car.photo}" class="car-image" />
+            <div><label th:text="#{car.name}"></label><a th:text="${car.name}"> </a></div>
+            <div><label th:text="#{car.capacity}"></label><a th:text="${car.capacity}"> </a></div>
+            <div><label th:text="#{car.carType}"></label><a th:text="${car.carType}"> </a></div>
             <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" th:text="#{makeOrder.button}"></a></td>
-        </tr>
-        </tbody>
-    </table>
+             <form th:action="@{|/car/change-status/${car.id}|}">
+                 <div>
+                     <div class="form-group blu-margin">
+                         <a th:text="#{car.carStatus}"></a>
+                         <select class="form-control"  th:name="carStatus" id="dropOperator" >
+                             <option   th:each="status : ${carStatus}"  th:value="${status}" th:text="${status}"th:if="${car.carStatus}==${status}" th:selected="selected"></option>
+                             <option   th:each="status : ${carStatus}"  th:value="${status}" th:text="${status}"th:if="${car.carStatus}!=${status}" ></option>
+                         </select>
+                     </div>
+                 </div>
+                 <div><button class="btn" type="submit" th:text="#{submit.button}"></button></div>
+             </form>
+
+            </div>
+        </div>
     <ul th:if="${cars.totalPages > 0}" class="nav nav-tabs justify-content-center">
         <li class="nav-item"  th:each="pageNumber : ${pageNumbers}">
             <a th:href="@{/cars(size=${cars.size}, page=${pageNumber})}"

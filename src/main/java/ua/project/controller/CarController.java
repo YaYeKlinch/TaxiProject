@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.project.controller.dto.CarDto;
 import ua.project.entity.Car;
+import ua.project.entity.enums.CarStatus;
 import ua.project.entity.enums.CarType;
 import ua.project.services.car.CarService;
 import ua.project.services.mapper.CarMapper;
@@ -37,6 +38,7 @@ public class CarController {
         Page<Car> cars = carService.findAllActiveCars(page, size);
         model.addAttribute("cars", cars);
         int totalPages = cars.getTotalPages();
+        model.addAttribute("carStatus", ControllerUtils.getCarStatuses());
         ControllerUtils.pageNumberCounts(totalPages , model);
         return "car/activeCarList";
     }
@@ -70,7 +72,7 @@ public class CarController {
           return "car/addCar";
         }
         carService.createCar(carDto);
-        return "redirect:/car";
+        return "redirect:/cars";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/car/{car}")
@@ -78,6 +80,13 @@ public class CarController {
         carService.changeCarActivity(car);
         return "redirect:/all-cars";
     }
+
+    @GetMapping("/car/change-status/{car}")
+    public String changeCarStatus(@PathVariable("car") Car car,
+                CarStatus carStatus){
+        carService.changeCarStatus(car,carStatus);
+        return "redirect:/cars";
+        }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/car/update-car/{car}")

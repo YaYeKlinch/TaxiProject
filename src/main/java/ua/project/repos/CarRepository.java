@@ -10,5 +10,5 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
 
     Page<Car> findAll(Pageable pageable);
     Page<Car> findCarsByActive(Pageable pageable, boolean active);
-    Page<Car> findCarsByCapacityAndCarTypeAAndActive(Pageable pageable, int capacity, CarType carType,boolean active);
+    Page<Car> findCarsByCapacityAndCarTypeAndActive(Pageable pageable, int capacity, CarType carType,boolean active);
 }
