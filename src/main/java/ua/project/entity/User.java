@@ -40,7 +40,7 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
-    private Set<Order> orders;
+    private Set<TaxiOrder> orders;
 
 
 
@@ -144,11 +144,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Set<Order> getOrders() {
+    public Set<TaxiOrder> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(Set<TaxiOrder> orders) {
         this.orders = orders;
     }
 

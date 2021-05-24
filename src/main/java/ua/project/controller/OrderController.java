@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.project.controller.dto.OrderDto;
 import ua.project.entity.Car;
-import ua.project.entity.Order;
+import ua.project.entity.TaxiOrder;
 import ua.project.entity.User;
+import ua.project.entity.statistic.OrderCarStatistic;
 import ua.project.services.order.OrderService;
 
 import javax.validation.Valid;
@@ -59,7 +60,7 @@ public class OrderController {
         }
         model.addAttribute("username", username);
       //  String searchField = ControllerUtils.getSearchField(username, model);
-        Page<Order> orders = orderService.findAllByUsersUsername(page , size , sort,username);
+        Page<TaxiOrder> orders = orderService.findAllByUsersUsername(page , size , sort,username);
         int totalPages = orders.getTotalPages();
         ControllerUtils.pageNumberCounts(totalPages , model);
         model.addAttribute("orders", orders);
@@ -74,10 +75,21 @@ public class OrderController {
                                 @AuthenticationPrincipal User user,
                                 Model model){
         Sort sort = ControllerUtils.getSort(sortBy , nameBy , model);
-        Page<Order> orders = orderService.findAllUsersOrders(page , size , sort, user);
+        Page<TaxiOrder> orders = orderService.findAllUsersOrders(page , size , sort, user);
         int totalPages = orders.getTotalPages();
         ControllerUtils.pageNumberCounts(totalPages , model);
         model.addAttribute("orders", orders);
         return "order/userOrdersList";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/statistics")
+    public String getStatisticsPage(@RequestParam("page") Optional<Integer> page,
+                                    @RequestParam("size") Optional<Integer> size,
+                                    Model model){
+        Page<OrderCarStatistic> statistics= orderService.calculateStatistics(page,size);
+        int totalPages = statistics.getTotalPages();
+        ControllerUtils.pageNumberCounts(totalPages , model);
+        model.addAttribute("statistics", statistics);
+        return "/order/statistics";
     }
 }

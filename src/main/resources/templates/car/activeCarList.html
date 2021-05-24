@@ -14,19 +14,20 @@
             <div><label th:text="#{car.capacity}"></label><a th:text="${car.capacity}"> </a></div>
             <div><label th:text="#{car.carType}"></label><a th:text="${car.carType}"> </a></div>
             <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" th:text="#{makeOrder.button}"></a></td>
+            <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
              <form th:action="@{|/car/change-status/${car.id}|}">
                  <div>
                      <div class="form-group blu-margin">
                          <a th:text="#{car.carStatus}"></a>
                          <select class="form-control"  th:name="carStatus" id="dropOperator" >
-                             <option   th:each="status : ${carStatus}"  th:value="${status}" th:text="${status}"th:if="${car.carStatus}==${status}" th:selected="selected"></option>
-                             <option   th:each="status : ${carStatus}"  th:value="${status}" th:text="${status}"th:if="${car.carStatus}!=${status}" ></option>
+                             <option   th:each="status : ${carStatus}"  th:value="${status}" th:text="${status}"
+                                       th:selected="${car.carStatus.name() == status}"></option>
                          </select>
                      </div>
                  </div>
                  <div><button class="btn" type="submit" th:text="#{submit.button}"></button></div>
              </form>
-
+            </div>
             </div>
         </div>
     <ul th:if="${cars.totalPages > 0}" class="nav nav-tabs justify-content-center">

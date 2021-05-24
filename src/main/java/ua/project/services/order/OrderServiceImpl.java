@@ -7,8 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.project.controller.dto.OrderDto;
 import ua.project.entity.Car;
-import ua.project.entity.Order;
+import ua.project.entity.TaxiOrder;
 import ua.project.entity.User;
+import ua.project.entity.statistic.OrderCarStatistic;
 import ua.project.repos.OrderRepository;
 import ua.project.services.mapper.OrderMapper;
 
@@ -23,7 +24,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void createOrder(OrderDto orderDto, User user, Car car) {
-        Order order = orderMapper.mapToEntity(orderDto);
+        TaxiOrder order = orderMapper.mapToEntity(orderDto);
         order.setCar(car);
         order.setUser(user);
         order.setDateTime(LocalDateTime.now());
@@ -31,7 +32,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Page<Order> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort) {
+    public Page<TaxiOrder> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort) {
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -45,7 +46,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Page<Order> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort, User user) {
+    public Page<TaxiOrder> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort, User user) {
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -59,7 +60,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Page<Order> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort, String username) {
+    public Page<TaxiOrder> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort, String username) {
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -70,5 +71,15 @@ public class OrderServiceImpl implements OrderService{
             pageRequest = PageRequest.of(currentPage - 1 , sizeOfPage , sort);
         }
         return orderRepository.findOrdersByUserUsernameContaining(pageRequest, username);
+    }
+
+    @Override
+    public Page<OrderCarStatistic> calculateStatistics(Optional<Integer> page, Optional<Integer> size) {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        pageRequest = PageRequest.of(currentPage - 1 , sizeOfPage);
+        return orderRepository.sumTotalDistanceAndCosts(pageRequest);
+//        return null;
     }
 }

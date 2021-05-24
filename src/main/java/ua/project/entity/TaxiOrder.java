@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "taxi_order")
 @NoArgsConstructor
-public class Order {
+public class TaxiOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,7 +33,7 @@ public class Order {
     private Car car;
 
     @Builder
-    public Order(String departure , String arrival, int costs , double distance){
+    public TaxiOrder(String departure , String arrival, int costs , double distance){
         this.arrival = arrival;
         this.departure = departure;
         this.costs = costs;

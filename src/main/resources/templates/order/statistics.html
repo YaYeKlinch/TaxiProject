@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="/fragments/head :: head">
+
+</head>
+<body>
+<div class="container">
+    <header th:replace="/fragments/navbar :: navbar"></header>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" >Car id</th>
+            <th scope="col" >Car</th>
+            <th scope="col" >Distance</th>
+            <th scope="col" >Costs</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row" th:each="st : ${statistics.content}">
+            <td th:text="${st.car.id}"> </td>
+            <td th:text="${st.car.name}"> </td>
+            <td th:text="${st.distanceSum}"> </td>
+            <td th:text="${st.costsSum}"> </td>
+        </tr>
+        </tbody>
+    </table>
+    <ul th:if="${statistics.totalPages > 0}" class="nav nav-tabs justify-content-center">
+        <li class="nav-item"  th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/statistics(size=${statistics.size}, page=${pageNumber} , sort=${sort}, nameBy=${nameBy})}"
+               th:text=${pageNumber}
+               th:class="${pageNumber==statistics.number + 1} ? active"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

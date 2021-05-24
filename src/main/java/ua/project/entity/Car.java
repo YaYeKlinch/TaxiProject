@@ -1,6 +1,7 @@
 package ua.project.entity;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ua.project.entity.enums.CarStatus;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "car")
+@EqualsAndHashCode
 public class Car {
 
     @Id
@@ -34,7 +36,7 @@ public class Car {
     private CarType carType;
 
     @OneToMany(mappedBy = "car" , fetch = FetchType.EAGER)
-    private Set<Order> orders;
+    private Set<TaxiOrder> orders;
 
     public Car() {
     }

@@ -2,18 +2,18 @@ package ua.project.services.mapper.impl;
 
 import org.springframework.stereotype.Component;
 import ua.project.controller.dto.OrderDto;
-import ua.project.entity.Order;
+import ua.project.entity.TaxiOrder;
 import ua.project.services.mapper.OrderMapper;
 
 @Component
 public class OrderMapperImpl implements OrderMapper {
     @Override
-    public Order mapToEntity(OrderDto dto) {
+    public TaxiOrder mapToEntity(OrderDto dto) {
         if(dto==null){
             return null;
         }
         double distance = dto.calculateDistance();
-        Order order = Order.builder().departure(dto.getDeparture())
+        TaxiOrder order = TaxiOrder.builder().departure(dto.getDeparture())
                 .arrival(dto.getArrival())
                 .costs(dto.calculateCosts(distance))
                 .distance(distance)
@@ -21,7 +21,7 @@ public class OrderMapperImpl implements OrderMapper {
         return order;
     }
     @Override
-    public OrderDto mapToDto(Order entity) {
+    public OrderDto mapToDto(TaxiOrder entity) {
         return null;
     }
 }
