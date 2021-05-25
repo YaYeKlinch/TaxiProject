@@ -69,13 +69,22 @@ public class CarServiceImpl implements CarService {
         int sizeOfPage = size.orElse(5);
         pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
 
-        return carRepository.findCarsByCapacityAndCarTypeAndActive(pageRequest, capacity, carType,true);
+        return carRepository.findCarsByCapacityAndCarTypeAndActiveAndCarStatus(pageRequest, capacity, carType,true, CarStatus.READY);
     }
 
     @Override
     public void changeCarStatus(Car car, CarStatus carStatus) {
         car.setCarStatus(carStatus);
         carRepository.save(car);
+    }
+
+    @Override
+    public Page<Car> findCarsByCapacity(Optional<Integer> page, Optional<Integer> size, int capacity) {
+        PageRequest pageRequest = null;
+        int currentPage = page.orElse(1);
+        int sizeOfPage = size.orElse(5);
+        pageRequest = PageRequest.of(currentPage -1, sizeOfPage);
+        return carRepository.findCarsByCapacityAndActiveAndCarStatus(pageRequest, capacity , true , CarStatus.READY);
     }
 
 }

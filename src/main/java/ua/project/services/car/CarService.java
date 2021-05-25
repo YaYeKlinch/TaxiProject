@@ -19,4 +19,5 @@ public interface CarService {
     Page<Car> findAllActiveCars(Optional<Integer> page, Optional<Integer> size);
     Page<Car> findCarsByTypeAndCapacity(Optional<Integer> page, Optional<Integer> size, CarType carType,int capacity);
     void changeCarStatus(Car car , CarStatus carStatus);
+    Page<Car> findCarsByCapacity(Optional<Integer> page, Optional<Integer> size , int capacity);
 }

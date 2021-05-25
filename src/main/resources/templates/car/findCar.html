@@ -18,7 +18,9 @@
 <input th:type="number" id="capacity"/>
         <button id="find-car-btn" class="btn" type="button"  th:text="#{submit.button}"></button>
 </form>
-
+<div class="message" id="msg">
+    <span th:text="#{text.alternate}"></span>
+</div>
     <div class="grid-container" id="grid-car-container">
 <!--        <div class="grid-item car-item" >-->
 <!--            <img " class="car-image" />-->
@@ -63,8 +65,14 @@
         })
     });
 
-    function addCar(page) {
-
+    function addCar(dto) {
+        let page = dto.foundCars;
+        if(dto.alternate){
+            $("#msg").show();
+        }
+        else{
+            $("#msg").hide();
+        }
         const container = $("#grid-car-container")[0];
         container.innerHTML = "";
         page.content.forEach((car)=> {

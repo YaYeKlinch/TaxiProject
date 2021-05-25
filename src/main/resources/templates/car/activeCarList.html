@@ -16,7 +16,13 @@
                 <span th:text="${car.capacity}"> </span></div><span >  </span>
             <div><label th:text="#{car.carType}"></label><span >  </span>
                 <span th:text="${car.carType}"> </span></div>
+            <div sec:authorize="hasAuthority('USER')" th:if="${#authorization.expression('isAuthenticated()')}">
+            <div><label th:text="#{car.carStatus}"></label><span >  </span>
+                <span th:text="${car.carStatus}"> </span></div>
+            </div>
+            <div th:if="${car.carStatus.name() == 'READY'}">
             <td><a class="btn btn-outline-primary" th:href="@{/car/make-order/{id}(id =${car.id})}" th:text="#{makeOrder.button}"></a></td>
+            </div>
             <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
              <form th:action="@{|/car/change-status/${car.id}|}">
                  <div>

@@ -1,5 +1,6 @@
 package ua.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarType carType;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "car" , fetch = FetchType.EAGER)
     private Set<TaxiOrder> orders;
 

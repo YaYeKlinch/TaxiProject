@@ -9,10 +9,13 @@ import ua.project.controller.dto.OrderDto;
 import ua.project.entity.Car;
 import ua.project.entity.TaxiOrder;
 import ua.project.entity.User;
+import ua.project.entity.enums.CarStatus;
 import ua.project.entity.statistic.OrderCarStatistic;
+import ua.project.repos.CarRepository;
 import ua.project.repos.OrderRepository;
 import ua.project.services.mapper.OrderMapper;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -20,14 +23,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService{
     OrderRepository orderRepository;
+    CarRepository carRepository;
     OrderMapper orderMapper;
 
     @Override
+    @Transactional
     public void createOrder(OrderDto orderDto, User user, Car car) {
         TaxiOrder order = orderMapper.mapToEntity(orderDto);
         order.setCar(car);
         order.setUser(user);
         order.setDateTime(LocalDateTime.now());
+        car.setCarStatus(CarStatus.IN_RACE);
+        carRepository.save(car);
         orderRepository.save(order);
     }
 

@@ -1,6 +1,7 @@
 package ua.project.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.project.controller.dto.CarDto;
+import ua.project.controller.dto.FoundCarDto;
 import ua.project.entity.Car;
 import ua.project.entity.enums.CarStatus;
 import ua.project.entity.enums.CarType;
@@ -114,13 +116,18 @@ public class CarController {
 
     @ResponseBody
     @RequestMapping(value = "/find-car-filter",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Page<Car>> findCars(@RequestParam("page") Optional<Integer> page,
+    public ResponseEntity<FoundCarDto> findCars(@RequestParam("page") Optional<Integer> page,
                                              @RequestParam("size") Optional<Integer> size,
                                              @RequestParam("capacity")int capacity,
                                              @RequestParam("carType")CarType carType
                                     ){
 
         Page<Car> cars = carService.findCarsByTypeAndCapacity(page ,size , carType,capacity);
-        return new ResponseEntity<>(cars, HttpStatus.OK);
+        if(cars.hasContent()){
+            return new ResponseEntity<>(new FoundCarDto(cars, false), HttpStatus.OK);
+        }
+
+        Page<Car> alternateCars = carService.findCarsByCapacity(page,size,capacity);
+        return new ResponseEntity<>(new FoundCarDto(alternateCars, true), HttpStatus.OK);
     }
 }

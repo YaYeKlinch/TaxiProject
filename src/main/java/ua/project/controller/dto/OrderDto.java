@@ -2,6 +2,7 @@ package ua.project.controller.dto;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import ua.project.controller.dto.utility.DepartmentArrivalNotEqual;
 
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import java.util.Random;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@DepartmentArrivalNotEqual
 public class OrderDto {
     private static final double COST_PER_METER = 2;
     private static final double START_PRICE = 4000;
