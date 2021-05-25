@@ -69,8 +69,11 @@ public class CarController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-car")
     public String addCar(@Valid CarDto carDto,
-                         BindingResult bindingResult){
+                         BindingResult bindingResult,
+                         Model model){
         if(bindingResult.hasErrors()){
+            model.addAttribute("carType", ControllerUtils.getCarTypes());
+            model.addAttribute("car" , carDto);
           return "car/addCar";
         }
         carService.createCar(carDto);

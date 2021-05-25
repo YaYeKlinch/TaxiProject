@@ -14,9 +14,9 @@
             </select>
             </div>
         </div>
-           <div ><a th:text="#{car.capacity}"></a> <input type="number" th:name="capacity"/></div>
-        <div > <a th:text="#{car.name}"></a> <input type="text" th:name="name"/></div>
-        <div > <a th:text="#{car.photo}"></a> <input type="text" th:name="photo"/> </div>
+           <div ><a th:text="#{car.capacity}"></a> <input type="number" th:name="capacity" th:value="${car.capacity}"/></div>
+        <div > <a th:text="#{car.name}"></a> <input type="text" th:name="name" th:value="${car.name}"/></div>
+        <div > <a th:text="#{car.photo}"></a> <input type="text" th:name="photo" th:value="${car.photo}" </div>
         <div><button class="btn" type="submit"  th:text="#{submit.button}"></button></div>
     </form>
 </div>

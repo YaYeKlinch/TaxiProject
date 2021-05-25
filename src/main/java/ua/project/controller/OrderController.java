@@ -1,5 +1,6 @@
 package ua.project.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import ua.project.controller.dto.OrderDto;
 import ua.project.entity.Car;
 import ua.project.entity.TaxiOrder;
 import ua.project.entity.User;
+import ua.project.entity.enums.CarStatus;
 import ua.project.entity.statistic.OrderCarStatistic;
 import ua.project.services.order.OrderService;
 
@@ -30,6 +32,9 @@ public class OrderController {
     @GetMapping("/car/make-order/{car}")
     public String getOrderPage(Model model,
                                @PathVariable Car car){
+        if(!car.getCarStatus().equals(CarStatus.READY)){
+            return "redirect:/cars";
+        }
         OrderDto orderDto = new OrderDto();
         model.addAttribute("order", orderDto);
         model.addAttribute("carId", car.getId());
@@ -39,8 +44,10 @@ public class OrderController {
     public String makeOrder(@PathVariable("car") Car car,
                             @AuthenticationPrincipal User user,
                             @Valid OrderDto orderDto,
-                            BindingResult bindingResult){
+                            BindingResult bindingResult,
+                            Model model){
         if(bindingResult.hasErrors()){
+            model.addAttribute("order", orderDto);
             return "order/addOrder";
         }
         orderService.createOrder(orderDto, user, car);

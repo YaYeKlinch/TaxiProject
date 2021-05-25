@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ua.project.entity.enums.CarType;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CarDto {
     @NotNull(message = "Enter capacity")
+    @Min(0)
     private int capacity;
 
     @NotBlank(message = "Enter name")
