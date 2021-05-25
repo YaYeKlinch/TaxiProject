@@ -15,9 +15,9 @@
     <div class="grid-container">
         <div class="grid-item car-item"  th:each="car : ${carList.content}">
             <img th:src="${car.photo}" class="car-image" />
-            <div><label th:text="#{car.name}"></label><a th:text="${car.name}"> </a></div>
-            <div><label th:text="#{car.capacity}"></label><a th:text="${car.capacity}"> </a></div>
-            <div><label th:text="#{car.carType}"></label><a th:text="${car.carType}"> </a></div>
+            <div><label th:text="#{car.name}"></label><span >  </span><a th:text="${car.name}"> </a></div>
+            <div><label th:text="#{car.capacity}"></label><span >  </span><a th:text="${car.capacity}"> </a></div>
+            <div><label th:text="#{car.carType}"></label><span >  </span><a th:text="${car.carType}"> </a></div>
             <div sec:authorize="hasAuthority('ADMIN')" th:if="${#authorization.expression('isAuthenticated()')}">
                 <div th:if="${car.active}">
                     <td><a class="btn btn-outline-primary" th:href="@{/car/{id}(id =${car.id})}" th:text="#{deleteCar.button}"></a></td>
