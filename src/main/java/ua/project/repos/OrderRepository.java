@@ -15,11 +15,7 @@ public interface OrderRepository extends PagingAndSortingRepository<TaxiOrder, L
     Page<TaxiOrder> findAll(Pageable pageable);
     Page<TaxiOrder> findOrdersByUser_id(Pageable pageable, @Param("user_id") Long id);
     Page<TaxiOrder> findOrdersByUserUsernameContaining(Pageable pageable, String username);
-//    @Query(value = "SELECT new " +
-//            "ua.project.entity.statistic.OrderCarStatistic(TaxiOrder.car, " +
-//            "SUM(TaxiOrder.costs), SUM(TaxiOrder.distance)) " +
-//            "FROM TaxiOrder " +
-//            "GROUP BY TaxiOrder.car" )
+
     @Query(value = "SELECT new " +
             "ua.project.entity.statistic.OrderCarStatistic(t.car, SUM(t.costs), SUM(t.distance)) " +
             "FROM TaxiOrder as t " +

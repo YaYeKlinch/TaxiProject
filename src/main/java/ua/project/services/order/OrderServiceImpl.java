@@ -1,6 +1,8 @@
 package ua.project.services.order;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService{
+    private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
     OrderRepository orderRepository;
     CarRepository carRepository;
     OrderMapper orderMapper;
@@ -29,6 +32,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     @Transactional
     public void createOrder(OrderDto orderDto, User user, Car car) {
+        logger.info("user" + user.getUsername() +"trying to make order on car with id " +car.getId() );
         TaxiOrder order = orderMapper.mapToEntity(orderDto);
         order.setCar(car);
         order.setUser(user);
@@ -40,6 +44,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<TaxiOrder> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort) {
+        logger.info("trying to find all orders");
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -54,6 +59,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<TaxiOrder> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort, User user) {
+        logger.info("trying to find all orders for user " + user.getUsername());
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -68,6 +74,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<TaxiOrder> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort, String username) {
+        logger.info("trying to find all orders that make user with username LIKE " + username);
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
@@ -82,6 +89,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<OrderCarStatistic> calculateStatistics(Optional<Integer> page, Optional<Integer> size) {
+        logger.info("trying to calculate statistics for orders");
         PageRequest pageRequest = null;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);

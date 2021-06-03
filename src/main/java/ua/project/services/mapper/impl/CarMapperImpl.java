@@ -11,10 +11,7 @@ public class CarMapperImpl implements CarMapper {
 
     @Override
     public Car mapToEntity(CarDto carDto) {
-        if(carDto== null){
-            return null;
-        }
-        Car car = Car.builder()
+        return Car.builder()
                 .name(carDto.getName())
                 .photo(carDto.getPhoto())
                 .capacity(carDto.getCapacity())
@@ -22,19 +19,14 @@ public class CarMapperImpl implements CarMapper {
                 .carType(carDto.getCarType())
                 .active(true)
                 .build();
-        return car;
     }
 
     public CarDto mapToDto(Car entity) {
-        if(entity== null){
-            return null;
-        }
-        CarDto carDto = CarDto.builder().name(entity.getName())
+        return CarDto.builder().name(entity.getName())
                 .capacity(entity.getCapacity())
                 .photo(entity.getPhoto())
                 .carType(entity.getCarType())
                 .build();
-        return carDto;
     }
 
     @Override

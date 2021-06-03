@@ -1,6 +1,7 @@
 package ua.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,12 +23,20 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
+    @NotNull
     private int capacity;
 
+    @Column(nullable = false)
+    @NotNull
     private String name;
 
+    @Column(nullable = false)
+    @NotNull
     private String photo;
 
+    @Column(nullable = false)
+    @NotNull
     private boolean active;
 
     @Enumerated(EnumType.STRING)

@@ -3,6 +3,8 @@ package ua.project.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,28 +22,27 @@ import ua.project.entity.enums.CarType;
 import ua.project.services.car.CarService;
 import ua.project.services.mapper.CarMapper;
 
-import javax.jws.WebParam;
+
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
 public class CarController {
-
-
+    private static final Logger logger = (Logger) LogManager.getLogger(CarController.class);
     CarService carService;
-
     CarMapper carMapper;
 
     @GetMapping("/cars")
     public String getActiveCarsList(@RequestParam("page") Optional<Integer> page,
                                     @RequestParam("size") Optional<Integer> size, Model model){
+        logger.debug("requested /cars get method");
         Page<Car> cars = carService.findAllActiveCars(page, size);
         model.addAttribute("cars", cars);
         int totalPages = cars.getTotalPages();
         model.addAttribute("carStatus", ControllerUtils.getCarStatuses());
         ControllerUtils.pageNumberCounts(totalPages , model);
+        logger.debug("returning activeCarList.html to user");
         return "car/activeCarList";
     }
 
@@ -50,20 +51,24 @@ public class CarController {
     @GetMapping("/all-cars")
     public String getAllCarsList(@RequestParam("page") Optional<Integer> page,
                                  @RequestParam("size") Optional<Integer> size, Model model){
+        logger.debug("requested /all-cars get method");
         Page<Car> cars = carService.findAll(page, size);
         model.addAttribute("carList", cars);
         int totalPages = cars.getTotalPages();
         ControllerUtils.pageNumberCounts(totalPages , model);
+        logger.debug("returning carList.html to user");
         return "car/carList";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/add-car")
     public String getAddCarPage(Model model){
+        logger.debug("requested /add-car get method");
         CarDto carDto = new CarDto();
         model.addAttribute("carType", ControllerUtils.getCarTypes());
         model.addAttribute("carStatus", ControllerUtils.getCarStatuses());
         model.addAttribute("car" , carDto);
+        logger.debug("returning addCar.html to user");
         return "car/addCar";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -72,24 +77,30 @@ public class CarController {
                          BindingResult bindingResult,
                          Model model){
         if(bindingResult.hasErrors()){
+            logger.debug("carDto has errors , returning to addCar.html");
             model.addAttribute("carType", ControllerUtils.getCarTypes());
             model.addAttribute("car" , carDto);
           return "car/addCar";
         }
         carService.createCar(carDto);
+        logger.debug("returning cars.html to user");
         return "redirect:/cars";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/car/{car}")
     public String changeActivity(@PathVariable("car") Car car){
+        logger.debug("requested /car/" + car.getId() + " get method");
         carService.changeCarActivity(car);
+        logger.debug("returning cars.html to user");
         return "redirect:/all-cars";
     }
 
     @GetMapping("/car/change-status/{car}")
     public String changeCarStatus(@PathVariable("car") Car car,
                 CarStatus carStatus){
+        logger.debug("requested /car/change-status/" + car.getId() + " get method");
         carService.changeCarStatus(car,carStatus);
+        logger.debug("returning cars.html to user");
         return "redirect:/cars";
         }
 
@@ -97,23 +108,36 @@ public class CarController {
     @GetMapping("/car/update-car/{car}")
     public String getUpdateCarPage(Model model,
                                    @PathVariable("car") Car car){
+        logger.debug("requested /car/update-car/" + car.getId() + " get method");
         CarDto carDto = carMapper.mapToDto(car);
         model.addAttribute("carDto" , carDto);
         model.addAttribute("carType", ControllerUtils.getCarTypes());
         model.addAttribute("carId", car.getId());
+        logger.debug("returning updateCar.html to user");
         return "car/updateCar";
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("car/update-car/{car}")
     public String updateCar(@PathVariable("car") Car car,
-                            CarDto carDto){
+                            @Valid CarDto carDto,
+                            BindingResult bindingResult,
+                            Model model){
+        if(bindingResult.hasErrors()){
+            logger.debug("carDto has errors , returning to updateCar.html");
+            model.addAttribute("carType", ControllerUtils.getCarTypes());
+            model.addAttribute("car" , carDto);
+            return "car/updateCar";
+        }
         carService.updateCar(carDto,car);
+        logger.debug("returning carList.html to user");
         return "redirect:/all-cars";
 
     }
     @GetMapping("/find-car")
     public String getFindCarPage(Model model){
+        logger.debug("requested /find-car get method");
         model.addAttribute("carType", ControllerUtils.getCarTypes());
+        logger.debug("returning findCar.html to user");
         return "car/findCar";
     }
 
@@ -127,10 +151,12 @@ public class CarController {
 
         Page<Car> cars = carService.findCarsByTypeAndCapacity(page ,size , carType,capacity);
         if(cars.hasContent()){
+            logger.debug("returning foundCarDto list to user");
             return new ResponseEntity<>(new FoundCarDto(cars, false), HttpStatus.OK);
         }
 
         Page<Car> alternateCars = carService.findCarsByCapacity(page,size,capacity);
+        logger.debug("returning alternate foundCarDto list to user");
         return new ResponseEntity<>(new FoundCarDto(alternateCars, true), HttpStatus.OK);
     }
 }

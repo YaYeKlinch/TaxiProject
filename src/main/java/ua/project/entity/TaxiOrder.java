@@ -1,5 +1,6 @@
 package ua.project.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +19,24 @@ public class TaxiOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
+    @NotNull
     private String departure;
+
+    @Column(nullable = false)
+    @NotNull
     private String arrival;
+
+    @Column(nullable = false)
+    @NotNull
     private int costs;
+
+    @Column(nullable = false)
+    @NotNull
     private double distance;
+
+    @Column(nullable = false)
+    @NotNull
     private LocalDateTime dateTime;
 
     @ManyToOne(fetch = FetchType.EAGER)

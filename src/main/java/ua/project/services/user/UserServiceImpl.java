@@ -1,6 +1,8 @@
 package ua.project.services.user;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,15 +20,20 @@ import java.util.Collections;
 @AllArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService{
 
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.info("trying to find user with username " + username);
         return userRepository.findByUsername(username);
     }
 
     @Override
     public void createAndSaveUser(UserDto userDto) {
+        logger.info("trying to register user with username " + userDto.getEmail());
         if (emailExists(userDto.getEmail())) {
+            logger.info("tried to register user with username " + userDto.getEmail() +
+                    ", throwing UserAlreadyExistException");
             throw new UserAlreadyExistException(
                     "There is an account with that email address: "
                             +  userDto.getEmail());
