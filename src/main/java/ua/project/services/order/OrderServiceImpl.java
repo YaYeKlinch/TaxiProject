@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void createOrder(OrderDto orderDto, User user, Car car) {
+    public TaxiOrder createOrder(OrderDto orderDto, User user, Car car) {
         logger.info("user" + user.getUsername() +"trying to make order on car with id " +car.getId() );
         TaxiOrder order = orderMapper.mapToEntity(orderDto);
         order.setCar(car);
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService{
         order.setDateTime(LocalDateTime.now());
         car.setCarStatus(CarStatus.IN_RACE);
         carRepository.save(car);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     @Override

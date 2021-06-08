@@ -11,7 +11,7 @@ import ua.project.entity.statistic.OrderCarStatistic;
 import java.util.Optional;
 
 public interface OrderService {
-    void createOrder(OrderDto orderDto , User user , Car car);
+    TaxiOrder createOrder(OrderDto orderDto , User user , Car car);
     Page<TaxiOrder> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort);
     Page<TaxiOrder> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort , User user);
     Page<TaxiOrder> findAllByUsersUsername(Optional<Integer> page, Optional<Integer> size, Sort sort , String username);

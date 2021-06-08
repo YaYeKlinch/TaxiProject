@@ -38,7 +38,7 @@ public class UserServiceImpl implements  UserDetailsService, UserService{
     }
 
     @Override
-    public void createAndSaveUser(UserDto userDto) {
+    public User createAndSaveUser(UserDto userDto) {
         logger.info("trying to register user with username " + userDto.getEmail());
         if (emailExists(userDto.getEmail())) {
             logger.info("tried to register user with username " + userDto.getEmail() +
@@ -54,7 +54,7 @@ public class UserServiceImpl implements  UserDetailsService, UserService{
         userToCreate.setPassword(encodePassword(userDto.getPassword()));
         userToCreate.setUsername(userDto.getEmail());
         userToCreate.setRoles(Collections.singleton(Role.USER));
-        userRepository.save(userToCreate);
+        return userRepository.save(userToCreate);
     }
 
     private String encodePassword(String password){

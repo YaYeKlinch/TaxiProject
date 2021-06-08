@@ -12,8 +12,6 @@ import ua.project.entity.enums.CarStatus;
 import ua.project.entity.enums.CarType;
 import ua.project.repos.CarRepository;
 import ua.project.services.mapper.CarMapper;
-import ua.project.services.order.OrderServiceImpl;
-
 
 import java.util.Optional;
 
@@ -35,25 +33,25 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void createCar(CarDto carDto) {
+    public Car createCar(CarDto carDto) {
         logger.info("trying to create car orders with name" + carDto.getName()
                 + " capacity " + carDto.getCapacity() + " photo " + carDto.getPhoto());
         Car car = carMapper.mapToEntity(carDto);
-        carRepository.save(car);
+        return carRepository.save(car);
     }
 
     @Override
-    public void changeCarActivity(Car car) {
+    public Car changeCarActivity(Car car) {
         logger.info("trying to change activity for car with id " + car.getId());
         car.setActive(!car.isActive());
-        carRepository.save(car);
+        return carRepository.save(car);
     }
 
     @Override
-    public void updateCar(CarDto carDto, Car car) {
+    public Car updateCar(CarDto carDto, Car car) {
         logger.info("trying to update car with id " + car.getId());
         carMapper.updateCar(car , carDto);
-        carRepository.save(car);
+       return carRepository.save(car);
     }
 
     @Override
@@ -81,10 +79,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void changeCarStatus(Car car, CarStatus carStatus) {
+    public Car changeCarStatus(Car car, CarStatus carStatus) {
         logger.info("trying to change status for car with id" + car.getId());
         car.setCarStatus(carStatus);
-        carRepository.save(car);
+        return carRepository.save(car);
     }
 
     @Override
