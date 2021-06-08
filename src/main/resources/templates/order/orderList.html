@@ -32,8 +32,8 @@
             <a class="btn btn-outline-primary" th:href="@{/orders(sort='ASC', nameBy='costs', username=${username})}"  th:text="#{sort.asc}"></a>
         </td>
         <tr scope="row" th:each="order : ${orders.content}">
-            <td th:text="${order.dateTime}"> </td>
-            <td th:text="${order.costs}"> </td>
+            <td th:text="${#temporals.format(order.dateTime, 'dd-MM-yyyy HH:mm')}"> </td>
+            <td th:text="${order.costs/100}"> </td>
             <td th:text="${order.departure}"> </td>
             <td th:text="${order.arrival}"> </td>
             <td th:text="${order.user.username}"> </td>
