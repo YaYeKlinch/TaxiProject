@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Page<TaxiOrder> findAll(Optional<Integer> page, Optional<Integer> size, Sort sort) {
         logger.info("trying to find all orders");
-        PageRequest pageRequest = null;
+        PageRequest pageRequest;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
         if(sort==null){
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Page<TaxiOrder> findAllUsersOrders(Optional<Integer> page, Optional<Integer> size, Sort sort, User user) {
         logger.info("trying to find all orders for user " + user.getUsername());
-        PageRequest pageRequest = null;
+        PageRequest pageRequest;
         int currentPage = page.orElse(1);
         int sizeOfPage = size.orElse(5);
         if(sort==null){
@@ -95,6 +95,5 @@ public class OrderServiceImpl implements OrderService{
         int sizeOfPage = size.orElse(5);
         pageRequest = PageRequest.of(currentPage - 1 , sizeOfPage);
         return orderRepository.sumTotalDistanceAndCosts(pageRequest);
-//        return null;
     }
 }

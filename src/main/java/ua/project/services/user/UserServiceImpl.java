@@ -1,11 +1,8 @@
 package ua.project.services.user;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,8 +14,8 @@ import ua.project.entity.User;
 import ua.project.exceptions.UserAlreadyExistException;
 import ua.project.repos.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +35,7 @@ public class UserServiceImpl implements  UserDetailsService, UserService{
     }
 
     @Override
+    @Transactional
     public User createAndSaveUser(UserDto userDto) {
         logger.info("trying to register user with username " + userDto.getEmail());
         if (emailExists(userDto.getEmail())) {
